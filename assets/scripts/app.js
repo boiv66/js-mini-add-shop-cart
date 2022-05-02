@@ -40,10 +40,29 @@ class ProductItem{
 }
 class ShoppingCart{
     item = [];
+
+    set cartItem(value){
+        this.item = value; 
+        this.total.innerHTML = `<h2>Total: $${this.totalPurchase.toFixed(2)} </h2>`
+
+    }
+
+    get totalPurchase(){
+        const sum = this.item.reduce((prev,current) => prev + current.price,0); 
+        return sum; 
+    }
     
     addProd(product){
-        this.item.push(product); 
-        this.total.innerHTML = `<h2>Total: $${1} </h2>`
+        const updatedItem = [...this.item]; 
+        updatedItem.push(product); 
+        this.cartItem = updatedItem; 
+       
+    }
+
+    order(){
+        console.log('order successfully');
+        console.log(this.item);
+    
     }
 
     render(){
@@ -53,6 +72,8 @@ class ShoppingCart{
         <button>Order Now!</button>
         `;
         cart.className = 'cart'; 
+        const orderButton = cart.querySelector('button'); 
+        orderButton.addEventListener('click', () => this.order());
         this.total = cart.querySelector("h2");
         return cart; 
 
